@@ -2,8 +2,17 @@
 
 RequestBin gives you a URL that will collect requests made to it and let you inspect them in a human-friendly way. Use RequestBin to see what your HTTP client is sending or to inspect and debug webhook requests.
 
+## Quick start
 
-## Installation
+Launch your own RequestBin instance with docker
+
+```
+docker run -p "8000:8000" kingster/requestbin:latest
+```
+
+The pre-build image is available in the Docker central repository as [kingster/requestbin](https://hub.docker.com/u/kingster/requestbin).  
+
+## Run it with persistence
 
 Clone the project from github
 
@@ -20,7 +29,6 @@ $ docker-compose up
 
 This will run the automated build of the RequestBin image and then pull down the trusted `redis` image and run with a mounted volume as a linked container to the RequestBin app. RequestBin would be exposed on the port `8000`.  
 
-The pre-build image is available in the Docker central repository as [kingster/requestbin](https://hub.docker.com/u/kingster/requestbin).  
 
 ## Run it manually  
 
