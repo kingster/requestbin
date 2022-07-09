@@ -16,7 +16,7 @@ except ImportError as e:
 
 db = klass(bin_ttl)
 
-def create_bin(private=False):
+def create_bin(private=False) -> Bin:
     return db.create_bin(private)
 
 def create_request(bin, request):
@@ -24,8 +24,6 @@ def create_request(bin, request):
 
 def lookup_bin(name) -> Bin:
     name=re.split(r"[/.]", name)[0]
-    print("Getting bin")
-    print(name)
     return db.lookup_bin(name)
 
 def count_bins():

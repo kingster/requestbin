@@ -6,7 +6,7 @@ import time
 import urllib
 
 def approximate_time(ts):
-    if not isinstance(ts, (int, long, float, complex)):
+    if not isinstance(ts, (int, float, complex)):
         return ""
 
     now = time.time()
@@ -71,20 +71,20 @@ def friendly_time(secs):
 
 
 def friendly_number(input):
-    if not isinstance(input, (int, long, float, complex)):
+    if not isinstance(input, (int, float, complex)):
         return ""
     return "{:,}".format(input)
 
 
 def exact_time(ts):
-    if not isinstance(ts, (int, long, float, complex)):
+    if not isinstance(ts, (int, float, complex)):
         return None
 
     return datetime.datetime.utcfromtimestamp(ts)
 
 
 def time_class(secs):
-    if not isinstance(secs, (int, long, float, complex)):
+    if not isinstance(secs, (int, float, complex)):
         return ""
 
     ms = secs * 1000.0
@@ -115,9 +115,9 @@ def to_qs(params_dict):
     
 def short_date(input):
     dt = None
-    if isinstance(input, (str, unicode)):
+    if isinstance(input, (bytes, str)):
         dt = parse(input)
-    elif isinstance(input, (int, long, float, complex)):
+    elif isinstance(input, (int, float, complex)):
         dt = datetime.datetime.utcfromtimestamp(float(input))
     else:
         return ""

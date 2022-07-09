@@ -38,12 +38,12 @@ class Bin(object):
     def dump(self):
         o = copy.copy(self.__dict__)
         o['requests'] = [r.dump() for r in self.requests]
-        return msgpack.dumps(o)
+        return msgpack.packb(o, use_bin_type=True)
 
     @staticmethod
     def load(data):
-        o = msgpack.loads(data)
-        o['requests'] = [Request.load(r) for r in o[b'requests']]
+        o = msgpack.unpackb(data)
+        o['requests'] = [Request.load(r) for r in o['requests']]
         b = Bin()
         b.__dict__ = o
         return b
@@ -115,16 +115,12 @@ class Request(object):
         return datetime.datetime.fromtimestamp(self.time)
 
     def dump(self):
-        return msgpack.dumps(self.__dict__)
+        return msgpack.packb(self.__dict__)
 
     @staticmethod
     def load(data):
         r = Request()
-        try:
-            r.__dict__ = msgpack.loads(data, encoding="utf-8")
-        except (UnicodeDecodeError):
-            r.__dict__ = msgpack.loads(data, encoding="ISO-8859-1")
-
+        r.__dict__ = msgpack.unpackb(data)
         return r
 
     # def __iter__(self):
