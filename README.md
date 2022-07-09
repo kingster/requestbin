@@ -1,5 +1,6 @@
 # Requestbin
 
+RequestBin gives you a URL that will collect requests made to it and let you inspect them in a human-friendly way. Use RequestBin to see what your HTTP client is sending or to inspect and debug webhook requests.
 
 
 ## Installation
