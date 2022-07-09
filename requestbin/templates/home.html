@@ -2,8 +2,18 @@
 {% block head %}
     <script type="text/javascript">
       function createBin() {
-        $.ajax({'url': '/api/v1/bins', 'type': 'POST', 
-          'data': {'private': $('#private').prop("checked")},
+        var name = null
+        if($('#custom').prop("checked") == true) {
+          name = prompt("Enter a name for your bin:");
+        }
+
+        $.ajax({
+          'url': '/api/v1/bins', 
+          'type': 'POST', 
+          'data': {
+            'private': $('#private').prop("checked"),
+            'custom_name' : name
+          },
           'success': function(data) {
             window.location.href = "/"+data['name']+"?inspect";
           }
@@ -25,6 +35,10 @@
               </p>
               
               <p class="banner-option">
+                <label class="checkbox" title="Use Custom Name">
+                  <input id="custom" type="checkbox" /> &nbsp;Custom Name  &nbsp;
+                </label>
+
                 <label class="checkbox" title="Private bins can only be viewed by you using a browser cookie">
                   <input id="private" type="checkbox" /> &nbsp;Private <small>(only viewable from this browser)</small>
                 </label>
