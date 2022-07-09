@@ -5,7 +5,7 @@ RequestBin gives you a URL that will collect requests made to it and let you ins
 
 ## Installation
 
-Clone the project fro github
+Clone the project from github
 
 ```
 $ git clone https://github.com/kingster/requestbin
@@ -18,11 +18,11 @@ $ cd requestbin
 $ docker-compose up  
 ```  
 
-This will run the automated build of the RequestBin image and then pull down the trusted `redis` image and run with a mounted volume as a linked container to the RequestBin app. RequestBin would be exposed on the port 8000.  
+This will run the automated build of the RequestBin image and then pull down the trusted `redis` image and run with a mounted volume as a linked container to the RequestBin app. RequestBin would be exposed on the port `8000`.  
 
-The automated build is available in the Docker central repository as [kingster/requestbin](https://hub.docker.com/u/kingster/requestbin).  
+The pre-build image is available in the Docker central repository as [kingster/requestbin](https://hub.docker.com/u/kingster/requestbin).  
 
-## Run your own image manually  
+## Run it manually  
 
 Pull the image down from the Docker central repository:  
 
@@ -38,7 +38,7 @@ $ docker run -d -v /usr/data:/data \
       redis redis-server --appendonly yes
 
 $ docker run -d --link some-redis:redis  \
-	  -e "REALM=prod" -e REDIS_URL="//localhost:6379" \
+	  -e "REALM=prod" -e REDIS_URL="//redis:6379" \
 	  -p "8000:8000" \
 	  kingster/requestbin
 ```
