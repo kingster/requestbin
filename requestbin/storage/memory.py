@@ -1,7 +1,8 @@
 import time
 import operator
+import gevent   
 
-from ..models import Bin
+from requestbin.models import Bin
 
 from requestbin import config
 
@@ -18,7 +19,7 @@ class MemoryStorage():
 
     def _cleanup_loop(self):
         while True:
-            self.async.sleep(self.cleanup_interval)
+            gevent.sleep(self.cleanup_interval)
             self._expire_bins()
 
     def _expire_bins(self):
@@ -27,7 +28,7 @@ class MemoryStorage():
             if bin.created < expiry:
                 self.bins.pop(name)
 
-    def create_bin(self, private=False):
+    def create_bin(self, private=False) -> Bin:
         bin = Bin(private)
         self.bins[bin.name] = bin
         return self.bins[bin.name]
@@ -45,5 +46,5 @@ class MemoryStorage():
     def avg_req_size(self):
         return None
 
-    def lookup_bin(self, name):
+    def lookup_bin(self, name) -> Bin:
         return self.bins[name]

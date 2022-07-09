@@ -36,8 +36,8 @@ def bin(name):
     try:
         bin = db.lookup_bin(name)
     except KeyError:
-        return "Not found\n", 404
-    if request.query_string == 'inspect':
+        return "Bin Not found\n", 404
+    if request.query_string.decode() == 'inspect':
         if bin.private and session.get(bin.name) != bin.secret_key:
             return "Private bin\n", 403
         update_recent_bins(name)

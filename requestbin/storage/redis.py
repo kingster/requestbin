@@ -1,11 +1,12 @@
 from __future__ import absolute_import
 
 import time
-import cPickle as pickle
-
+import pickle
+import traceback
 import redis
+from regex import B
 
-from ..models import Bin
+from requestbin.models import Bin
 
 from requestbin import config
 
@@ -22,14 +23,14 @@ class RedisStorage():
     def _request_count_key(self):
         return '{}-requests'.format(self.prefix)
 
-    def create_bin(self, private=False):
+    def create_bin(self, private=False) -> Bin:
         bin = Bin(private)
         key = self._key(bin.name)
         self.redis.set(key, bin.dump())
         self.redis.expireat(key, int(bin.created+self.bin_ttl))
         return bin
 
-    def create_request(self, bin, request):
+    def create_request(self, bin: Bin, request):
         bin.add(request)
         key = self._key(bin.name)
         self.redis.set(key, bin.dump())
@@ -49,12 +50,15 @@ class RedisStorage():
         info = self.redis.info()
         return info['used_memory'] / info['db0']['keys'] / 1024
 
-    def lookup_bin(self, name):
+    def lookup_bin(self, name) -> Bin:
         key = self._key(name)
         serialized_bin = self.redis.get(key)
         try:
             bin = Bin.load(serialized_bin)
             return bin
-        except TypeError:
+        except TypeError as e:
+            traceback.print_exc()
             self.redis.delete(key) # clear bad data
             raise KeyError("Bin not found")
+        except Exception as e:
+            traceback.print_exc()

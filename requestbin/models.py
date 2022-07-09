@@ -43,7 +43,7 @@ class Bin(object):
     @staticmethod
     def load(data):
         o = msgpack.loads(data)
-        o['requests'] = [Request.load(r) for r in o['requests']]
+        o['requests'] = [Request.load(r) for r in o[b'requests']]
         b = Bin()
         b.__dict__ = o
         return b
