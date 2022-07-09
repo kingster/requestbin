@@ -7,3 +7,5 @@ codekit-config.json
 
 # Mac Files
 **/.DS_Store
+venv/
+
