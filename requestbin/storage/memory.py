@@ -28,8 +28,8 @@ class MemoryStorage():
             if bin.created < expiry:
                 self.bins.pop(name)
 
-    def create_bin(self, private=False) -> Bin:
-        bin = Bin(private)
+    def create_bin(self, private=False, custom_name=None) -> Bin:
+        bin = Bin(private, custom_name)
         self.bins[bin.name] = bin
         return self.bins[bin.name]
 
