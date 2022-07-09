@@ -57,7 +57,6 @@ class RedisStorage():
             bin = Bin.load(serialized_bin)
             return bin
         except TypeError as e:
-            traceback.print_exc()
             self.redis.delete(key) # clear bad data
             raise KeyError("Bin not found")
         except Exception as e:
