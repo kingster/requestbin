@@ -57,3 +57,4 @@ Contributors
 ------------
  * Barry Carlyon <barry@barrycarlyon.co.uk>
  * Jeff Lindsay <progrium@gmail.com>
+ * Kinshuk Bairagi <hi@kinsh.uk>
