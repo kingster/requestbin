@@ -1,8 +1,8 @@
-FROM python:2.7-alpine
+FROM python:3.9-alpine
 
 RUN apk update && apk upgrade && \
     apk add \
-        gcc python python-dev py-pip \
+        gcc g++ python3-dev libffi-dev gcc musl-dev make \
         # greenlet
         musl-dev \
         # sys/queue.h
