@@ -1,7 +1,9 @@
+import json
 import urllib
 from flask import session, redirect, url_for, escape, request, render_template, make_response
 
 from requestbin import app, db
+
 
 def update_recent_bins(name):
     if 'recent' not in session:
@@ -26,6 +28,7 @@ def expand_recent_bins():
             session.modified = True
     return recent
 
+
 @app.endpoint('views.home')
 def home():
     return render_template('home.html', recent=expand_recent_bins())
@@ -42,8 +45,23 @@ def bin(name):
             return "Private bin\n", 403
         update_recent_bins(name)
         return render_template('bin.html',
-            bin=bin,
-            base_url=request.scheme+'://'+request.host)
+                               bin=bin,
+                               base_url=request.scheme+'://'+request.host)
+    elif 'machinereadable' in request.query_string.decode() and request.method == "POST":
+        if bin.private and session.get(bin.name) != bin.secret_key:
+            return "Private bin\n", 403
+        reqs = [req.__dict__ for req in bin.requests]
+        return json.dumps(reqs, default=lambda o: '<not serializable>')
+    elif 'query' in request.query_string.decode() and request.method == "POST":
+        if bin.private and session.get(bin.name) != bin.secret_key:
+            return "Private bin\n", 403
+        key_value = request.query_string.decode().split("=")[1].split(",")
+        key = key_value[0]
+        value = key_value[1]
+        found_request = [
+            req for req in bin.requests if req.__dict__[key] == value]
+        reqs = [req.__dict__ for req in found_request]
+        return json.dumps(reqs, default=lambda o: '<not serializable>')
     else:
         db.create_request(bin, request)
         resp = make_response("ok\n")
@@ -56,8 +74,8 @@ def docs(name):
     doc = db.lookup_doc(name)
     if doc:
         return render_template('doc.html',
-                content=doc['content'],
-                title=doc['title'],
-                recent=expand_recent_bins())
+                               content=doc['content'],
+                               title=doc['title'],
+                               recent=expand_recent_bins())
     else:
         return "Not found", 404
