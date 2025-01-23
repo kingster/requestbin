@@ -1,15 +1,4 @@
-FROM python:3.9-alpine
-
-RUN apk update && apk upgrade && \
-    apk add \
-        gcc g++ python3-dev libffi-dev gcc musl-dev make \
-        # greenlet
-        musl-dev \
-        # sys/queue.h
-        bsd-compat-headers \
-        # event.h
-        libevent-dev \
-    && rm -rf /var/cache/apk/*
+FROM python:3.11-slim
 
 # want all dependencies first so that if it's just a code change, don't have to
 # rebuild as much of the container
@@ -28,5 +17,3 @@ WORKDIR /opt/requestbin
 ENV WORKERS=1
 
 CMD gunicorn -b 0.0.0.0:$PORT --worker-class gevent --workers $WORKERS --max-requests 1000 requestbin:app
-
-
