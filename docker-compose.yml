@@ -1,13 +1,15 @@
-app:
-    build: .
-    environment:
-        REALM: prod
-        REDIS_URL: "//redis:6379"
-        WORKERS: 2
-    links:
-        - redis
-    ports:
-        - "8000:8000"
+version: '3.8' 
+services:                      # add
+    app:
+        build: .
+        environment:
+            REALM: prod
+            REDIS_URL: "//redis:6379"
+            WORKERS: 2
+        links:
+            - redis
+        ports:
+            - "8000:8000"
 
-redis:
-    image: redis
+    redis:
+        image: redis
