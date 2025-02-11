@@ -26,7 +26,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Cache Docker layers
       uses: actions/cache@v2
-        with:
+      with:
           path: /tmp/.buildx-cache
           key: buildx-docker-${{ github.sha }}
           restore-keys: |
@@ -40,9 +40,9 @@ jobs:
           type=ref,event=branch
           type=ref,event=pr
           type=semver,pattern={{version}}
-     - name: Build Docker Image
-        uses: docker/build-push-action@v3
-        with:
+    - name: Build Docker Image
+      uses: docker/build-push-action@v3
+      with:
           # push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
