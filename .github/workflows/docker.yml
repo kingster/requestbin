@@ -36,6 +36,15 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: kingster/requestbin
+        tags: |
+          # branch event
+          type=ref,event=branch
+          # tag event
+          type=ref,event=tag
+          # pull request event
+          type=ref,event=pr
+          #latest
+          type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') }}
     - name: Build Docker Image
       uses: docker/build-push-action@v3
       with:
