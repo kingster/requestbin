@@ -36,14 +36,10 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: kingster/requestbin
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=semver,pattern={{version}}
     - name: Build Docker Image
       uses: docker/build-push-action@v3
       with:
-          # push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
