@@ -98,7 +98,7 @@ class Request(object):
     
     def as_string(self, bytes):
         try:
-            return str(bytes, "utf-16")
+            return str(bytes, "utf-8")
         except (UnicodeDecodeError, AttributeError):
             return "".join(chr(x) for x in bytes) #old format
 
