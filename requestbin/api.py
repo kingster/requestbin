@@ -1,16 +1,24 @@
 import json
 import operator
-
+import base64
 from flask import session, make_response, request, render_template
 from requestbin import app, db
+
+class BytesEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, bytes):
+            return base64.b64encode(o).decode("ascii")
+        else:
+            return super().default(o)
+        
 
 def _response(object, code=200):
     jsonp = request.args.get('jsonp')
     if jsonp:
-        resp = make_response('%s(%s)' % (jsonp, json.dumps(object)), 200)
+        resp = make_response('%s(%s)' % (jsonp, json.dumps(object, cls=BytesEncoder)), 200)
         resp.headers['Content-Type'] = 'text/javascript'
     else:
-        resp = make_response(json.dumps(object), code)
+        resp = make_response(json.dumps(object, cls=BytesEncoder), code)
         resp.headers['Content-Type'] = 'application/json'
         resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp

@@ -35,7 +35,7 @@ This will run the automated build of the RequestBin image and then pull down the
 Pull the image down from the Docker central repository:  
 
 ```
-$ docker run -d -p "8000:8000" kingster/requestbin
+$ docker run -d -p "8000:8000" kingster/requestbin:latest
 ```
 
 This will start the container with the requestbin app available externally on port 8000.  To run the image with a Redis back end, you need to startup redis first. Preferably with a mounted volume.
@@ -49,6 +49,14 @@ $ docker run -d --link some-redis:redis  \
 	  -e "REALM=prod" -e REDIS_URL="//redis:6379" \
 	  -p "8000:8000" \
 	  kingster/requestbin
+```
+
+## Developing on local
+
+```
+go install github.com/mattn/goreman@latest
+goreman start
+# now you can keep editing, it would auto reflect.
 ```
 
 
