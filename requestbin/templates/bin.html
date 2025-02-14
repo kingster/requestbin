@@ -23,7 +23,7 @@
               <span class="method">{{request.method}}</span> 
               <span class="absolute-path">{{request.path}}</span><span class="querystring">{{request.query_string|to_qs}}</span>
             </div>
-            <div class="span6 content">
+            <div class="span5 content">
               {% if request.content_type %}<i class="icon-code"></i>{% endif %} {{request.content_type}}<br>
               <i class="icon-cloud-upload"></i> {{request.content_length|friendly_size}}
             </div>
@@ -33,6 +33,19 @@
               </span><br>
               From {{request.remote_addr}}
             </div>
+
+            <div class="span1" class="timestamp">
+              <a href="#detail-{{request.id}}" class="btn btn-mini btn-info" onclick="toggleHovercard('{{request.id}}')">
+                Copy <i class="icon-code"></i>
+              </a>
+              <div id="hovercard-{{request.id}}" class="hovercard curl-preview">
+                <pre class="code-preview">{{request.to_curl}}</pre>
+                <button class="btn btn-small" onclick="copyToClipboard('{{request.id}}')">
+                Copy to clipboard
+                </button>
+              </div>
+            </div>
+            
           </div>
         </div>
 
