@@ -611,3 +611,14 @@ input.xxlarge {
   font-size: 42px;
   height: auto;
 }
+
+.curl-preview {
+  display: none; 
+  position: absolute; 
+  right: 20px; 
+  z-index: 100;  
+  background: white; 
+  border: 1px solid #ccc; 
+  padding: 10px; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}

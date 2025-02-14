@@ -69,6 +69,7 @@ class Request(object):
     def __init__(self, input=None):
         if input:
             self.id = tinyid(6)
+            self.url = input.url
             self.time = time.time()
             self.remote_addr = input.headers.get('X-Forwarded-For', input.remote_addr)
             self.method = input.method
@@ -105,6 +106,7 @@ class Request(object):
     def to_dict(self):
         return dict(
             id=self.id,
+            url=self.url,
             time=self.time,
             remote_addr=self.remote_addr,
             method=self.method,
@@ -117,6 +119,20 @@ class Request(object):
             content_length=self.content_length,
             content_type=self.content_type,
         )
+
+    @property
+    def to_curl(self):
+        curl_command = f"curl -X {self.method} '{self.url}'"
+        curl_headers = "\\\n".join([
+            f"  -H '{header}: {value}'"
+            for header, value in self.headers.items()
+            if header.lower() not in ['host', 'content-length']
+        ])
+        if curl_headers:
+            curl_command += f"\\\n{curl_headers}"
+        if self.raw:
+            curl_command += f"\\\n  -d '{self.raw}'"
+        return curl_command
 
     @property
     def created(self):
