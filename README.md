@@ -51,6 +51,46 @@ $ docker run -d --link some-redis:redis  \
 	  kingster/requestbin
 ```
 
+
+## API Documentation
+
+Documenting these details here, since many folks have tried to create custom APIs that provide the same feature. These are only for programmatic use. For General use, directly use the WebUI
+
+### Bin Management
+
+- **Create a new bin**
+  - `POST /api/v1/bins`
+  - **Description:** Creates a new request bin.  
+    Optional form data:
+    - `private`: (true/on) If set, creates a private bin.
+    - `custom_name`: Custom name for the bin.
+
+- **Get bin details**
+  - `GET /api/v1/bins/<name>`
+  - **Description:** Retrieves metadata/details for a specific bin.
+
+
+### Requests Management
+
+- **List all requests for a bin**
+  - `GET /api/v1/bins/<bin>/requests`
+  - **Description:** Returns all the requests made to the specified bin.
+
+- **Get a specific request**
+  - `GET /api/v1/bins/<bin>/requests/<name>`
+  - **Description:** Retrieves details for a specific request captured by the bin.
+
+
+### Statistics
+
+- **Get global statistics**
+  - `GET /api/v1/stats`
+  - **Description:** Returns statistics such as:
+    - `bin_count`: Total number of bins.
+    - `request_count`: Total number of requests.
+    - `avg_req_size_kb`: Average request size (in KB).
+
+
 ## Developing on local
 
 ```
