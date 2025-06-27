@@ -10,7 +10,7 @@ Launch your own RequestBin instance with docker
 docker run -p "8000:8000" kingster/requestbin:latest
 ```
 
-The pre-build image is available in the Docker central repository as [kingster/requestbin](https://hub.docker.com/u/kingster/requestbin).  
+The pre-build image is available in the Docker central repository as [kingster/requestbin](https://hub.docker.com/r/kingster/requestbin).  
 
 ## Run it with persistence
 
